@@ -307,3 +307,23 @@ img, video, canvas, iframe, svg {
     padding-right: 14px;
   }
 }
+
+
+/* Targeted fix for the mobile viewport overflow caused by ambient glow elements. */
+@media (max-width: 720px) {
+  .ambient {
+    width: min(440px, 100vw);
+    height: min(440px, 100vw);
+    max-width: 100vw;
+  }
+
+  .ambient-one {
+    right: 0;
+    left: auto;
+  }
+
+  .ambient-two {
+    left: 0;
+    right: auto;
+  }
+}
