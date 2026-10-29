@@ -31,6 +31,7 @@ const previews = {
 
 const tabButtons = [...document.querySelectorAll(".preview-tab")];
 const previewImage = document.querySelector("#preview-image");
+const previewViewport = document.querySelector(".preview-image-viewport");
 const previewKicker = document.querySelector("#preview-kicker");
 const previewTitle = document.querySelector("#preview-title");
 const previewDescription = document.querySelector("#preview-description");
@@ -42,6 +43,7 @@ function setPreview(key) {
   if (!previews[key]) return;
   activePreview = key;
   const item = previews[key];
+  if (previewViewport) previewViewport.scrollTop = 0;
   previewImage.classList.add("changing");
   window.setTimeout(() => {
     previewImage.src = item.image;
