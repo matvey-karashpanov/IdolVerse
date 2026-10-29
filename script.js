@@ -290,3 +290,59 @@ function setAiReviewState(state) {
 aiApproveButton.addEventListener("click", () => setAiReviewState("approved"));
 aiRejectButton.addEventListener("click", () => setAiReviewState("rejected"));
 aiResetButton.addEventListener("click", () => setAiReviewState("pending"));
+
+// Hero photo carousel: rotates photos and allows manual selection.
+(() => {
+  const carousel = document.querySelector(".hero-photo-carousel");
+  if (!carousel) return;
+
+  const photos = [...carousel.querySelectorAll(".hero-photo")];
+  const dots = [...carousel.querySelectorAll(".hero-photo-dot")];
+  if (photos.length < 2 || dots.length !== photos.length) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let active = 0;
+  let timer = null;
+
+  function showPhoto(index) {
+    active = (index + photos.length) % photos.length;
+    photos.forEach((photo, i) => {
+      const selected = i === active;
+      photo.classList.toggle("is-active", selected);
+      photo.setAttribute("aria-hidden", String(!selected));
+    });
+    dots.forEach((dot, i) => {
+      const selected = i === active;
+      dot.classList.toggle("is-active", selected);
+      dot.setAttribute("aria-pressed", String(selected));
+    });
+  }
+
+  function stop() {
+    if (timer !== null) window.clearInterval(timer);
+    timer = null;
+  }
+
+  function start() {
+    stop();
+    if (!reducedMotion) timer = window.setInterval(() => showPhoto(active + 1), 5000);
+  }
+
+  dots.forEach((dot, i) => dot.addEventListener("click", () => {
+    showPhoto(i);
+    start();
+  }));
+
+  carousel.addEventListener("mouseenter", stop);
+  carousel.addEventListener("mouseleave", start);
+  carousel.addEventListener("focusin", stop);
+  carousel.addEventListener("focusout", start);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  showPhoto(0);
+  start();
+})();
+

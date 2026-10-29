@@ -51,9 +51,18 @@
       </div>
       <div class="hero-art reveal" aria-label="Визуальная концепция IDOLVERSE">
         <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
-        <div class="hero-image-frame">
-          <img src="assets/home-preview.png" alt="Предварительный макет главной страницы IDOLVERSE">
+        <div class="hero-image-frame hero-photo-carousel" aria-label="Фотографии музыкальных групп">
+          <img class="hero-photo is-active" src="assets/hero-cortis.jpg" alt="Группа CORTIS" fetchpriority="high">
+          <img class="hero-photo" src="assets/hero-group-2.jpg" alt="Музыкальная группа — фото 2" loading="lazy">
+          <img class="hero-photo" src="assets/hero-group-3.jpg" alt="Музыкальная группа — фото 3" loading="lazy">
+          <img class="hero-photo" src="assets/hero-group-4.jpg" alt="Музыкальная группа — фото 4" loading="lazy">
           <div class="image-glow"></div>
+          <div class="hero-photo-controls" aria-label="Выбрать фотографию">
+            <button class="hero-photo-dot is-active" type="button" aria-label="Фото 1" aria-pressed="true"></button>
+            <button class="hero-photo-dot" type="button" aria-label="Фото 2" aria-pressed="false"></button>
+            <button class="hero-photo-dot" type="button" aria-label="Фото 3" aria-pressed="false"></button>
+            <button class="hero-photo-dot" type="button" aria-label="Фото 4" aria-pressed="false"></button>
+          </div>
         </div>
         <div class="floating-card floating-card-top">
           <span class="mini-icon purple">✦</span><div><strong>Discover</strong><small>Найди своего артиста</small></div>
