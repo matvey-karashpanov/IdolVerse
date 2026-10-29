@@ -110,150 +110,200 @@ img, video, svg, canvas { max-width: 100%; }
 @media (max-width:720px) { .ai-review-actions,.ai-review-feedback { margin-left:0!important; }.ai-review-actions { gap:6px; }.review-button,.review-reset { flex:1 1 auto; }.ai-review-feedback { margin-top:2px!important; } }
 
 
-/* Final viewport-width safeguard: prevent the mobile page shell from inheriting a narrow width. */
-@media (max-width: 720px) {
-  html, body {
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    margin-inline: 0;
-  }
-  body {
-    overflow-x: clip;
-  }
-  .site-header {
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-  }
-  main, .site-footer {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-  }
-  .ticker {
-    width: 100%;
-    max-width: 100%;
-  }
+
+
+/* Unified responsive layout: keep content sized to the viewport, not oversized children. */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-
-/* Mobile horizontal-overflow fix:
-   decorative glows and rotated artwork must not widen the document. */
 html {
-  overflow-x: clip;
-}
-@media (max-width: 720px) {
-  html,
-  body {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    overflow-x: clip;
-  }
-
-  .site-header {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  main,
-  .site-footer,
-  .section-wrap,
-  .hero,
-  .hero-copy,
-  .hero-art,
-  .preview,
-  .demo,
-  .smart,
-  .cta-section {
-    min-width: 0;
-    max-width: 100%;
-  }
-
-  /* Orbits and floating decorations are contained by the hero artwork. */
-  .hero-art {
-    overflow: clip;
-  }
-
-  /* The diagonal ticker is decorative; don't let its rotation create page width. */
-  .ticker {
-    width: 100%;
-    max-width: 100%;
-    transform: none;
-  }
-
-  /* Background glows may extend visually, but must not create a wider page. */
-  .ambient {
-    max-width: 100vw;
-    pointer-events: none;
-  }
-
-  img,
-  video,
-  iframe,
-  canvas,
-  svg {
-    max-width: 100%;
-  }
-}
-
-
-/* Root-cause fix: the rotated, oversized marquee was expanding the page width. */
-html, body {
+  width: 100%;
   max-width: 100%;
   overflow-x: clip;
 }
-main, .site-header, .site-footer {
+
+body {
+  width: 100%;
   max-width: 100%;
   min-width: 0;
+  margin: 0;
+  overflow-x: clip;
 }
+
+main,
+.site-header,
+.site-footer,
+section,
+.section-wrap {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.section-wrap {
+  width: min(calc(100% - 64px), var(--max));
+  margin-inline: auto;
+}
+
+img, video, canvas, iframe, svg {
+  max-width: 100%;
+}
+
+.hero > *,
+.features > *,
+.preview-stage > *,
+.smart-panel > *,
+.demo-content > *,
+.ai-flow > * {
+  min-width: 0;
+}
+
+.hero-copy,
+.hero-art,
+.preview-stage,
+.preview-image-wrap,
+.demo-shell,
+.demo-content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* The ticker is decorative; its long moving track must stay inside its viewport. */
 .ticker {
   position: relative;
   width: 100%;
   max-width: 100%;
-  overflow: clip;
-  contain: paint;
+  overflow: hidden;
+  contain: layout paint;
   transform: none;
 }
 .ticker-track {
+  display: flex;
   width: max-content;
   max-width: none;
+  flex-wrap: nowrap;
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+.ticker-group {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
-
-/* Actual mobile ticker fix: its oversized animated track must not affect page width. */
+/* Tablet and phone layout */
 @media (max-width: 720px) {
+  .section-wrap {
+    width: calc(100vw - 36px);
+    max-width: calc(100vw - 36px);
+    margin-inline: auto;
+  }
+
+  .site-header {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-inline: 18px;
+  }
+
+  main,
+  .site-footer {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .hero,
+  .problem,
+  .features,
+  .preview,
+  .smart,
+  .demo,
+  .cta-section {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-copy,
+  .hero-art {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero h1 {
+    overflow-wrap: anywhere;
+  }
+
+  .hero-image-frame {
+    width: min(84%, 400px);
+    max-width: 100%;
+  }
+
+  .floating-card,
+  .hero-sticker {
+    max-width: calc(100% - 12px);
+  }
+
   .ticker {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    contain: layout paint !important;
-    transform: none !important;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    contain: layout paint;
   }
+
+  /* Keep the ticker as one clipped horizontal strip on phones, not several rows. */
   .ticker-track {
-    display: flex !important;
-    position: static !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    transform: none !important;
-    animation: none !important;
-    will-change: auto !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 8px 14px !important;
+    width: max-content;
+    max-width: none;
+    flex-wrap: nowrap;
+    animation: none;
+    transform: none;
   }
+
   .ticker-group {
-    display: flex !important;
-    flex: 0 1 auto !important;
-    max-width: 100% !important;
-    width: auto !important;
-    white-space: normal !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 8px 14px !important;
-    padding: 0 !important;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    padding-right: 20px;
+    gap: 18px;
   }
-  .ticker-track i { margin-left: 0 !important; }
+
+  .ticker-track i {
+    margin-left: 0;
+  }
+
+  .problem-grid,
+  .feature-grid,
+  .demo-content,
+  .preview-stage {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .preview-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 390px) {
+  .section-wrap {
+    width: calc(100vw - 28px);
+    max-width: calc(100vw - 28px);
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 10vw, 2.5rem);
+  }
+
+  .ticker-group {
+    gap: 12px;
+    padding-right: 14px;
+  }
 }
