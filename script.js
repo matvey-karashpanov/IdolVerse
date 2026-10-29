@@ -119,9 +119,6 @@ document.querySelectorAll(".button-primary, .header-cta").forEach(link => {
     }
   });
 });
-
-
-// Lightweight front-end demo with illustrative data only (no backend).
 const artistData = {
   scoups: {
     id: "IDV-001", initials: "SC", name: "S.Coups", category: "K-POP · ARTIST", subtitle: "Лидер SEVENTEEN",
@@ -204,7 +201,14 @@ function applyArtistFilters() {
     card.hidden = !show;
     if (show) visible++;
   });
-  const countWord = visible % 10 === 1 && visible % 100 !== 11 ? "результат" : (visible % 10 >= 2 && visible % 10 <= 4 && (visible % 100 < 12 || visible % 100 > 14) ? "результата" : "результатов");
+  const countWord =
+    visible % 10 === 1 && visible % 100 !== 11
+      ? "результат"
+      : visible % 10 >= 2 &&
+          visible % 10 <= 4 &&
+          (visible % 100 < 12 || visible % 100 > 14)
+        ? "результата"
+        : "результатов";
   resultCount.textContent = `${String(visible).padStart(2, "0")} ${countWord}`;
   emptyResults.hidden = visible !== 0;
   if (visible && !artistCards.some(card => !card.hidden && card.dataset.artist === selectedArtist)) {
@@ -239,14 +243,13 @@ document.querySelector("#related-link").addEventListener("click", () => {
     detailFields.relation.textContent = artist.name;
     detailFields.relationMeta.textContent = "Артист · открыть профиль";
     detailFields.relationIcon.textContent = artist.initials;
-    detailFields.update.textContent = `Связанный профиль: ${artist.name}. Нажми на карточку, чтобы вернуться к списку артистов.`;
+    detailFields.update.textContent =
+      `Связанный профиль: ${artist.name}. Нажми на карточку, чтобы вернуться к списку артистов.`;
     document.querySelector("#related-link").setAttribute("aria-label", `Вернуться к профилю ${artist.name}`);
   } else {
     renderArtistDetails(selectedArtist);
   }
 });
-
-// Keyboard shortcut for search; ignored while typing in another control.
 document.addEventListener("keydown", event => {
   if (event.key === "/" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName) && !event.metaKey && !event.ctrlKey && !event.altKey) {
     event.preventDefault();
@@ -258,9 +261,6 @@ document.addEventListener("keydown", event => {
     artistSearch.blur();
   }
 });
-
-
-// Moderation concept demo: actions update only the local presentation state.
 const aiReviewDemo = document.querySelector("#ai-review-demo");
 const aiReviewStatus = document.querySelector("#ai-review-status");
 const aiReviewFeedback = document.querySelector("#ai-review-feedback");
@@ -273,11 +273,13 @@ function setAiReviewState(state) {
   if (state === "approved") {
     aiReviewDemo.classList.add("is-approved");
     aiReviewStatus.textContent = "Одобрено в демо";
-    aiReviewFeedback.textContent = "Пример прошёл проверку. В реальном продукте публикация потребовала бы подтверждённого источника и сохранения на сервере.";
+    aiReviewFeedback.textContent =
+      "Пример прошёл проверку. В реальном продукте публикация потребовала бы подтверждённого источника и сохранения на сервере.";
   } else if (state === "rejected") {
     aiReviewDemo.classList.add("is-rejected");
     aiReviewStatus.textContent = "Отклонено в демо";
-    aiReviewFeedback.textContent = "Предложение отклонено. В этой статической демонстрации данные не отправляются и не публикуются.";
+    aiReviewFeedback.textContent =
+      "Предложение отклонено. В этой статической демонстрации данные не отправляются и не публикуются.";
   } else {
     aiReviewStatus.textContent = "На проверке";
     aiReviewFeedback.textContent = "Выбери действие: решение изменит статус только в этой демонстрации.";
@@ -290,8 +292,6 @@ function setAiReviewState(state) {
 aiApproveButton.addEventListener("click", () => setAiReviewState("approved"));
 aiRejectButton.addEventListener("click", () => setAiReviewState("rejected"));
 aiResetButton.addEventListener("click", () => setAiReviewState("pending"));
-
-// Hero photo carousel: rotates photos and allows manual selection.
 (() => {
   const carousel = document.querySelector(".hero-photo-carousel");
   if (!carousel) return;
