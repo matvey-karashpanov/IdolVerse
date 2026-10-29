@@ -36,7 +36,7 @@ h1,h2,h3,p { margin-top:0; } h1 { font:800 clamp(42px,5.2vw,72px)/1.08 var(--dis
 .orbit { position:absolute; border:1px solid #a58aff35; border-radius:50%; transform:rotate(-28deg); }.orbit-a { width:560px; height:230px; }.orbit-b { width:490px; height:310px; transform:rotate(48deg); border-color:#7899ff28; }
 .floating-card { position:absolute; z-index:3; display:flex; align-items:center; gap:11px; padding:13px 16px; background:#151b2bdf; border:1px solid #ffffff17; border-radius:12px; box-shadow:0 15px 45px #0005; backdrop-filter:blur(12px); }.floating-card strong,.floating-card small { display:block; }.floating-card strong { font-size:11px; }.floating-card small { color:#9ca5b9; font-size:9px; margin-top:4px; }.floating-card-top { top:66px; left:-10px; }.floating-card-bottom { bottom:45px; right:-8px; }.mini-icon { width:30px; height:30px; display:grid; place-items:center; border-radius:9px; }.mini-icon.purple { background:#a58aff24; color:var(--purple); }.pulse-dot { width:7px; height:7px; border-radius:50%; background:#88e8c1; box-shadow:0 0 12px #88e8c1; flex:none; }.hero-sticker { position:absolute; top:0; right:5px; z-index:3; color:#c7b8ff; font-size:10px; line-height:1.2; letter-spacing:2px; transform:rotate(12deg); }.hero-sticker b { font-size:17px; }.hero-sticker span { display:block; font-size:22px; text-align:center; }
 .hero-bottomline { position:absolute; bottom:28px; left:0; right:0; display:flex; justify-content:space-between; color:#606b82; font-size:9px; letter-spacing:1.5px; }.scroll-note { color:#b1b6c5; letter-spacing:.2px; }.scroll-note span { margin-left:8px; color:var(--purple); }
-.ticker { overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#ffffff03; transform:rotate(-1deg) scale(1.02); padding:17px 0; margin:4px 0 100px; }.ticker-track { display:flex; width:max-content; gap:0; animation:marquee 32s linear infinite; will-change:transform; font:800 12px var(--display); letter-spacing:2px; color:#c6c9d6; }.ticker-group { display:flex; flex:none; align-items:center; gap:38px; padding-right:38px; white-space:nowrap; }.ticker-track i { font-style:normal; color:var(--purple); margin-left:34px; }
+.ticker { position:relative; width:100%; max-width:100%; overflow:hidden; contain:paint; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#ffffff03; transform:none; padding:17px 0; margin:4px 0 100px; }.ticker-track { display:flex; width:max-content; gap:0; animation:marquee 32s linear infinite; will-change:transform; font:800 12px var(--display); letter-spacing:2px; color:#c6c9d6; }.ticker-group { display:flex; flex:none; align-items:center; gap:38px; padding-right:38px; white-space:nowrap; }.ticker-track i { font-style:normal; color:var(--purple); margin-left:34px; }
 @keyframes marquee { to { transform:translateX(-33.333333%); } }
 .problem { padding-bottom:120px; }.section-heading h2,.features-intro h2,.smart h2,.cta-card h2 { font:800 clamp(34px,4vw,52px)/1.13 var(--display); letter-spacing:-2.3px; margin:22px 0 0; }.muted-heading { color:#7e879b; }
 .problem-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:44px; }.problem-card { min-height:236px; padding:23px 21px; border:1px solid var(--line); background:linear-gradient(145deg,#151b2a99,#10152199); border-radius:13px; position:relative; transition:transform .25s,border-color .25s,background .25s; }.problem-card:hover { transform:translateY(-6px); border-color:#a58aff60; background:#171d30; }.card-number { color:#717b92; font-size:10px; letter-spacing:1px; }.line-icon { color:var(--purple); font-size:29px; margin:25px 0 19px; }.problem-card h3 { font:700 15px var(--display); margin-bottom:10px; }.problem-card p { color:#9ea6b8; font-size:12px; line-height:1.7; margin-bottom:0; }
@@ -196,4 +196,27 @@ html {
   svg {
     max-width: 100%;
   }
+}
+
+
+/* Root-cause fix: the rotated, oversized marquee was expanding the page width. */
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+main, .site-header, .site-footer {
+  max-width: 100%;
+  min-width: 0;
+}
+.ticker {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: clip;
+  contain: paint;
+  transform: none;
+}
+.ticker-track {
+  width: max-content;
+  max-width: none;
 }
