@@ -333,10 +333,10 @@ aiResetButton.addEventListener("click", () => setAiReviewState("pending"));
     start();
   }));
 
-  carousel.addEventListener("mouseenter", stop);
-  carousel.addEventListener("mouseleave", start);
   carousel.addEventListener("focusin", stop);
-  carousel.addEventListener("focusout", start);
+  carousel.addEventListener("focusout", event => {
+    if (!carousel.contains(event.relatedTarget)) start();
+  });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stop();
     else start();
