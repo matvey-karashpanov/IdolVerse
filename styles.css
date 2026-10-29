@@ -2148,3 +2148,28 @@ body {
     box-sizing: border-box !important;
   }
 }
+
+.site-footer {
+  box-sizing: border-box;
+  padding: 24px 20px;
+}
+
+.footer-bottom {
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 12px;
+}
+
+.site-footer > p {
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .site-footer {
+    padding: 24px 12px;
+  }
+
+  .footer-bottom {
+    gap: 12px;
+  }
+}
